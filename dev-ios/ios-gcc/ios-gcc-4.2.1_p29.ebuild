@@ -7,7 +7,7 @@ LICENSE="GPL-3"
 KEYWORDS="~amd64"
 
 DEPEND="
-	dev-ios/ios-cctools
+	dev-ios/ios-binutils
 	dev-ios/ios-sdk
 "
 RDEPEND="${DEPEND}"
