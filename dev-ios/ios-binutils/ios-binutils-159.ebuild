@@ -1,6 +1,6 @@
 EAPI="4"
 
-inherit subversion autotools eutils
+inherit subversion autotools eutils flag-o-matic
 
 DESCRIPTION="binutils for iPhone"
 
