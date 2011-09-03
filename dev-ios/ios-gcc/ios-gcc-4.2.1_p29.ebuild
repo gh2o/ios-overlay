@@ -6,6 +6,12 @@ inherit toolchain versionator
 LICENSE="GPL-3"
 KEYWORDS="~amd64"
 
+DEPEND="
+	dev-ios/ios-cctools
+	dev-ios/ios-sdk
+"
+RDEPEND="${DEPEND}"
+
 PATCHLEVEL="${PV#*_p}"
 LLVM_MAJOR="$((${PATCHLEVEL} / 10))"
 LLVM_MINOR="$((${PATCHLEVEL} % 10))"
