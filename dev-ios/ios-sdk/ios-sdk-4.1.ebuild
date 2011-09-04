@@ -7,7 +7,7 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
-RESTRICT="strip"
+RESTRICT="fetch strip"
 DEPENDS="
 	app-arch/p7zip
 "
