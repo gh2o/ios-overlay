@@ -1,5 +1,9 @@
+# Copyright 1999-2011 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Header: $
+
 DESCRIPTION="iOS toolchain metapackage"
-HOMEPAGE=""
+HOMEPAGE="https://github.com/gh2o/ios-overlay"
 SRC_URI=""
 
 LICENSE="Apple"

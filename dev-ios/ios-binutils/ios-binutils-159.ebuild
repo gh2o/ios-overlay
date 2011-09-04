@@ -1,3 +1,7 @@
+# Copyright 1999-2011 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Header: $
+
 EAPI="4"
 
 inherit subversion autotools eutils flag-o-matic multilib
@@ -14,9 +18,10 @@ SRC_URI="
 "
 
 DESCRIPTION="binutils for iPhone"
+HOMEPAGE="http://svn.macosforge.org/repository/odcctools/"
 LICENSE="APSL-2"
 SLOT="0"
-KEYWORDS="~amd64"
+KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 CTARGET="arm-apple-darwin10"
@@ -34,21 +39,21 @@ pkg_setup () {
 src_unpack () {
 	S="${WORKDIR}"
 	subversion_src_unpack
-	
+
 	S="${WORKDIR}/build"
 	mkdir "${S}"
-	
+
 	cd "${S}"
 	unpack "cctools-${CCTOOLS_VERSION}.tar.gz"
 	mv cctools-${CCTOOLS_VERSION}/* .
 	rmdir cctools-${CCTOOLS_VERSION}
-	
+
 	mkdir ld64
 	cd ld64
 	unpack "ld64-${LD64_VERSION}.tar.gz"
 	mv ld64-${LD64_VERSION}/* .
 	rmdir ld64-${LD64_VERSION}
-	
+
 	cd "${S}"
 	cp -r ../files/* .
 }
@@ -85,7 +90,7 @@ src_prepare () {
 	ld64/LTOReader-setasmpath.diff include/mach/machine_armv7.diff \
 	ld/ld-nomach.diff libstuff/cmd_with_prefix.diff ld64/cstdio.diff \
 	misc/with_prefix.diff misc/bootstrap_h.diff"
-	
+
 	pd="${WORKDIR}/patches"
 	for pt in ${patches}; do
 		cd "${S}/$(dirname ${pt})"

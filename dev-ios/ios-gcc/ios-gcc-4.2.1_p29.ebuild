@@ -1,11 +1,16 @@
+# Copyright 1999-2011 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Header: $
+
 ETYPE="gcc-compiler"
 CTARGET="arm-apple-darwin10"
 
 inherit toolchain versionator
 
 DECRIPTION="GCC for iPhone"
+HOMEPAGE="http://www.llvm.org/"
 LICENSE="GPL-3"
-KEYWORDS="~amd64"
+KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 DEPEND="
@@ -33,9 +38,9 @@ gcc_quick_unpack () {
 }
 
 src_unpack () {
-	unpack "${A}"
+	unpack ${A}
 	mv "${LLVM_GCC_NAME}" "${S}"
-	gcc_src_unpack	
+	gcc_src_unpack
 
 	cd "${S}"
 

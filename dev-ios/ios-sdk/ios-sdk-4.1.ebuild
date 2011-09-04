@@ -1,6 +1,11 @@
+# Copyright 1999-2011 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Header: $
+
 EAPI="4"
 
 DESCRIPTION="iPhone headers and libs from xcode"
+HOMEPAGE="http://developer.apple.com/xcode/"
 
 LICENSE="Apple"
 SLOT="0"
@@ -22,7 +27,7 @@ SS="${S}/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS${IOS_VERSION}.sdk"
 
 src_unpack () {
 	7z x -so "${DISTDIR}/${XCODE}" 5.hfs >xcode.img || die "7z failed"
-	
+
 	7z x -so xcode.img "Install Xcode/InstallXcodeLion.pkg" >xcode.pkg || die "7z failed"
 	rm xcode.img
 
