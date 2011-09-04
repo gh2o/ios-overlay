@@ -1,7 +1,7 @@
 # iOS development overlay for Gentoo
 ## To get started:
 
-1. Download [Xcode](http://developer.apple.com/xcode/) from Apple and place it in /usr/portage/distfiles/.
+1. Download [Xcode 4.1](http://developer.apple.com/xcode/) from Apple and place it in /usr/portage/distfiles/.
 2. Download this overlay via git, or use a tarball from the Downloads link above:
    ```git clone git://github.com/gh2o/ios-overlay.git```
 3. Add the overlay to your /etc/make.conf:
