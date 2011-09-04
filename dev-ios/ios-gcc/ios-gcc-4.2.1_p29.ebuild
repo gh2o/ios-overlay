@@ -3,8 +3,10 @@ CTARGET="arm-apple-darwin10"
 
 inherit toolchain versionator
 
+DECRIPTION="GCC for iPhone"
 LICENSE="GPL-3"
 KEYWORDS="~amd64"
+IUSE=""
 
 DEPEND="
 	dev-ios/ios-binutils
@@ -16,18 +18,6 @@ PATCHLEVEL="${PV#*_p}"
 LLVM_MAJOR="$((${PATCHLEVEL} / 10))"
 LLVM_MINOR="$((${PATCHLEVEL} % 10))"
 LLVM_VERSION="${LLVM_MAJOR}.${LLVM_MINOR}"
-
-# llvm-specific options
-EXTRA_ECONF="
-	--enable-languages=c,c++,objc,obj-c++
-	--enable-llvm=/usr
-	${EXTRA_ECONF}
-"
-
-# ios sdk doesn't support armv5
-EXTRA_EMAKE='
-	ARM_MULTILIB_ARCHS="armv6 armv7"
-'
 
 get_llvm_gcc_name () {
 	set -- $(get_all_version_components)
@@ -57,4 +47,13 @@ src_unpack () {
 
 	# patch redef of mempcpy
 	sed -i -e 's|extern char \* mempcpy|//|g' ./gcc/config/darwin.c
+
+	# ios sdk doesn't support armv5
+	sed -i -e 's|armv5 armv6 armv7|armv6 armv7|g' gcc/config/arm/t-darwin
+}
+
+src_compile () {
+	# llvm-specific options
+	eval "$(declare -f gcc_src_compile | tail -n +2 | sed \
+		-e 's|gcc_do_configure|& --enable-llvm=/usr|g')"
 }
