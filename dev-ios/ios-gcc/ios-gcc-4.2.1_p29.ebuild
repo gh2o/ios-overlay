@@ -4,7 +4,7 @@
 
 ETYPE="gcc-compiler"
 CTARGET="arm-apple-darwin10"
-TOOLCHAIN_STDCXX_INCDIR="/usr/include/c++/${PV%_*}"
+TOOLCHAIN_STDCXX_INCDIR="/usr/${CTARGET}/usr/include/c++/${PV%_*}"
 
 inherit toolchain versionator
 
