@@ -17,7 +17,17 @@ LLVM_MAJOR="$((${PATCHLEVEL} / 10))"
 LLVM_MINOR="$((${PATCHLEVEL} % 10))"
 LLVM_VERSION="${LLVM_MAJOR}.${LLVM_MINOR}"
 
-EXTRA_ECONF="${EXTRA_ECONF} --enable-languages=c,c++,objc,obj-c++"
+# llvm-specific options
+EXTRA_ECONF="
+	--enable-languages=c,c++,objc,obj-c++
+	--enable-llvm=/usr
+	${EXTRA_ECONF}
+"
+
+# ios sdk doesn't support armv5
+EXTRA_EMAKE='
+	ARM_MULTILIB_ARCHS="armv6 armv7"
+'
 
 get_llvm_gcc_name () {
 	set -- $(get_all_version_components)
@@ -36,4 +46,15 @@ src_unpack () {
 	unpack "${A}"
 	mv "${LLVM_GCC_NAME}" "${S}"
 	gcc_src_unpack	
+
+	cd "${S}"
+
+	# lipo needs prefix
+	sed -i -e "s|lipo|${CTARGET}-lipo|g" ./gcc/Makefile.in
+
+	# move LLVM headers to end of search path
+	sed -i -e 's|INCLUDES += -I|INCLUDES += -isystem |g' gcc/Makefile.in
+
+	# patch redef of mempcpy
+	sed -i -e 's|extern char \* mempcpy|//|g' ./gcc/config/darwin.c
 }
