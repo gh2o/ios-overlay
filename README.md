@@ -1,5 +1,6 @@
 # iOS development overlay for Gentoo
 To get started:
+
 1. Download [Xcode](http://developer.apple.com/xcode/) from Apple.
 2. Download this overlay via git:
    ```git clone git://github.com/gh2o/ios-overlay.git```
