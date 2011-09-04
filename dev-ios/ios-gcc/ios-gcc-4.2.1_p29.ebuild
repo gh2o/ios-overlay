@@ -4,6 +4,7 @@
 
 ETYPE="gcc-compiler"
 CTARGET="arm-apple-darwin10"
+TOOLCHAIN_STDCXX_INCDIR="/usr/include/c++/${PV%_*}"
 
 inherit toolchain versionator
 
@@ -24,13 +25,7 @@ LLVM_MAJOR="$((${PATCHLEVEL} / 10))"
 LLVM_MINOR="$((${PATCHLEVEL} % 10))"
 LLVM_VERSION="${LLVM_MAJOR}.${LLVM_MINOR}"
 
-get_llvm_gcc_name () {
-	set -- $(get_all_version_components)
-	GCC_MAJOR_MINOR="${1}${2}${3}"
-	echo "llvm-gcc-${GCC_MAJOR_MINOR}-${LLVM_VERSION}.source"
-}
-
-LLVM_GCC_NAME="$(get_llvm_gcc_name)"
+LLVM_GCC_NAME="llvm-gcc-${GCC_BRANCH_VER}-${LLVM_VERSION}.source"
 SRC_URI="http://www.llvm.org/releases/${LLVM_VERSION}/${LLVM_GCC_NAME}.tgz"
 
 gcc_quick_unpack () {
