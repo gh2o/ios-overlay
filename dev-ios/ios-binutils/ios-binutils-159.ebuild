@@ -1,11 +1,11 @@
 EAPI="4"
 
-inherit subversion autotools eutils flag-o-matic
-
-DESCRIPTION="binutils for iPhone"
+inherit subversion autotools eutils flag-o-matic multilib
 
 CCTOOLS_VERSION="782"
 LD64_VERSION="85.2.2"
+
+EPATCH_OPTS=""
 
 ESVN_REPO_URI="http://svn.macosforge.org/repository/odcctools/trunk/@159"
 SRC_URI="
@@ -13,14 +13,18 @@ SRC_URI="
 	http://www.opensource.apple.com/tarballs/ld64/ld64-${LD64_VERSION}.tar.gz
 "
 
-EPATCH_OPTS=""
-
+DESCRIPTION="binutils for iPhone"
 LICENSE="APSL-2"
 SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
 CTARGET="arm-apple-darwin10"
+
+LIBPATH="/usr/$(get_libdir)/binutils/${CTARGET}/${PV}"
+INCPATH="${LIBPATH}/include"
+DATAPATH="/usr/share/binutils-data/${CTARGET}/${PV}"
+BINPATH="/usr/${CHOST}/${CTARGET}/binutils-bin/${PV}"
 
 pkg_setup () {
 	S="${WORKDIR}/build"
@@ -50,13 +54,8 @@ src_unpack () {
 }
 
 src_prepare () {
-	find "${S}" -type f -name '*.[ch]' | while read f; do
-		sed -i -e 's/^#import/#include/' $f
-	done
-	
-	find "${S}" -type f -name '*.[h]' | while read f; do
-		sed -i -e 's/^__private_extern__/extern/' $f
-	done
+	find "${S}" -type f -name '*.[ch]' -exec sed -i -e 's/^#import/#include/' {} +
+	find "${S}" -type f -name '*.[h]' -exec sed -i -e 's/^__private_extern__/extern/' {} +
 
 	find "${S}/ld64/doc" -type f -exec mv {} "${S}/man" \;
 
@@ -96,15 +95,23 @@ src_prepare () {
 	cd "${S}"
 
 	sed -i 's/round\.c/rnd\.c/g' libstuff/Makefile.in
-	find . -type f -print0 | xargs -0 sed -i 's/#import/#include/g'
-
 	sed -i 's/>=8/-ge 8/g' configure.ac
+
 	eautoreconf
 }
 
 src_configure () {
 	econf \
+		--prefix=/usr \
+		--host=${CHOST} \
 		--target=${CTARGET} \
+		--datadir=${DATAPATH} \
+		--infodir=${DATAPATH}/info \
+		--mandir=${DATAPATH}/man \
+		--bindir=${BINPATH} \
+		--libdir=${LIBPATH} \
+		--libexecdir=${LIBPATH} \
+		--includedir=${INCPATH} \
 		--enable-as-targets=arm \
 		--with-sysroot=/usr/${CTARGET}
 }
@@ -112,17 +119,24 @@ src_configure () {
 src_install () {
 	emake DESTDIR="${D}" install
 
-	for m in `seq 1 8`; do
-		d="${D}/usr/share/man/man${m}"
-
-		if ! [ -d "${d}" ]; then
-			continue
-		fi
-
-		cd "${d}"
-		for p in *; do
-			n="${p%.*}_odcctools"
-			mv "${p}" "${n}.${m}"
-		done
+	# link tools to remove prefixes
+	cd "${D}/${BINPATH}"
+	for x in *; do
+		ln -s "${x}" "${x#${CTARGET}-}"
 	done
+
+	# add binutils config
+	cd "${T}"
+	cat > env.d <<- EOF
+		TARGET="${CTARGET}"
+		VER="${PV}"
+		FAKE_TARGETS="${CTARGET}"
+	EOF
+
+	insinto /etc/env.d/binutils
+	newins env.d "${CTARGET}-${PV}"
+}
+
+pkg_postinst () {
+	binutils-config "${CTARGET}-${PV}"
 }
