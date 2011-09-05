@@ -13,7 +13,7 @@ KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 RESTRICT="fetch strip"
-DEPENDS="
+DEPEND="
 	app-arch/p7zip
 "
 
