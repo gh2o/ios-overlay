@@ -14,6 +14,9 @@ IUSE=""
 DEPEND=""
 RDEPEND="
 	dev-ios/ios-sdk
-	dev-ios/ios-binutils
+	|| (
+		dev-ios/ios-new-binutils
+		dev-ios/ios-binutils
+	)
 	dev-ios/ios-gcc
 "
