@@ -15,7 +15,10 @@ KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 DEPEND="
-	dev-ios/ios-binutils
+	|| (
+		dev-ios/ios-new-binutils
+		dev-ios/ios-binutils
+	)
 	dev-ios/ios-sdk
 "
 RDEPEND="${DEPEND}"
