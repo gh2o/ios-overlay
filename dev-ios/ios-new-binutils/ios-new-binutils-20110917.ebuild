@@ -17,7 +17,7 @@ KEYWORDS="~amd64 ~x86"
 
 GITHUB_USER="gh2o"
 GITHUB_REPO="darwin-cctools"
-GITHUB_COMMIT="0150fee"
+GITHUB_COMMIT="81573b4"
 
 SRC_URI="https://github.com/${GITHUB_USER}/${GITHUB_REPO}/tarball/${GITHUB_COMMIT}
 	-> ${P}-${GITHUB_COMMIT}.tar.gz"
@@ -68,6 +68,9 @@ src_compile () {
 
 src_install () {
 	emake DESTDIR="${D}" install
+
+	# don't throw binutils-config off
+	dodir "${LIBPATH}"
 
 	cd "${T}"
 	cat > env.d <<- EOF
