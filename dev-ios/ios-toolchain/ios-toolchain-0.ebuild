@@ -18,5 +18,8 @@ RDEPEND="
 		dev-ios/ios-new-binutils
 		dev-ios/ios-binutils
 	)
-	dev-ios/ios-gcc
+	|| (
+		dev-ios/ios-apple-gcc
+		dev-ios/ios-llvm-gcc
+	)
 "

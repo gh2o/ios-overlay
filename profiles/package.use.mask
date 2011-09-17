@@ -1,1 +1,2 @@
-dev-ios/ios-gcc gcj gtk
+dev-ios/ios-apple-gcc gcj gtk
+dev-ios/ios-llvm-gcc gcj gtk
