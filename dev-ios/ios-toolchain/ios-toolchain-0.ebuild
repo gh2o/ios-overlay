@@ -2,6 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
+EAPI="4"
+
 DESCRIPTION="iOS toolchain metapackage"
 HOMEPAGE="https://github.com/gh2o/ios-overlay"
 SRC_URI=""
@@ -11,8 +13,7 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
-DEPEND=""
-RDEPEND="
+DEPEND="
 	dev-ios/ios-sdk
 	|| (
 		dev-ios/ios-new-binutils
@@ -23,3 +24,4 @@ RDEPEND="
 		dev-ios/ios-llvm-gcc
 	)
 "
+RDEPEND="${DEPEND}"
