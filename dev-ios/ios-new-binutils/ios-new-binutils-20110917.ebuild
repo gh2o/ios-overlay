@@ -11,16 +11,16 @@ HOMEPAGE="https://github.com/gh2o/darwin-cctools"
 LICENSE="GPL-3 APSL-2 Apple"
 SLOT="0"
 RESTRICT="mirror"
-IUSE=""
+IUSE="llvm"
 
-DEPEND="sys-devel/llvm"
+DEPEND="llvm? ( sys-devel/llvm )"
 RDEPEND="${DEPEND}"
 
 KEYWORDS="~amd64 ~x86"
 
 GITHUB_USER="gh2o"
 GITHUB_REPO="darwin-cctools"
-GITHUB_COMMIT="81573b4"
+GITHUB_COMMIT="0ccf625"
 
 SRC_URI="https://github.com/${GITHUB_USER}/${GITHUB_REPO}/tarball/${GITHUB_COMMIT}
 	-> ${P}-${GITHUB_COMMIT}.tar.gz"
@@ -55,8 +55,8 @@ src_configure () {
 		--libdir=${LIBPATH} \
 		--libexecdir=${LIBPATH} \
 		--includedir=${INCPATH} \
-		--program-transform-name=';' \
-		--with-llvm=/usr \
+		--program-transform-name='' \
+		$(use_enable llvm llvm /usr) \
 		--with-sysroot=/usr/${CTARGET} \
 		--enable-silent-rules \
 		${EXTRA_ECONF}
