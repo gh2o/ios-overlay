@@ -20,6 +20,7 @@ DEPEND="
 		dev-ios/ios-binutils
 	)
 	dev-ios/ios-sdk
+	sys-devel/llvm
 "
 RDEPEND="${DEPEND}"
 

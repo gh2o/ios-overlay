@@ -13,6 +13,9 @@ SLOT="0"
 RESTRICT="mirror"
 IUSE=""
 
+DEPEND="sys-devel/llvm"
+RDEPEND="${DEPEND}"
+
 KEYWORDS="~amd64 ~x86"
 
 GITHUB_USER="gh2o"
